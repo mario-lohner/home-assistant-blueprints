@@ -1,0 +1,177 @@
+blueprint:
+  name: Shelly i4 - 4 Buttons (Short/Long) - 8 Actions
+  description: >-
+    Blueprint für Shelly i4 (Shelly Integration).
+
+    Für jeden der 4 Eingänge/Buttons kannst du jeweils 2 Aktionen frei belegen:
+      - kurzer Druck (single_push)
+      - langer Druck (long_push)
+
+    Hinweis: Der Shelly i4 muss so konfiguriert sein, dass die Eingänge als Button
+    arbeiten (nicht als Switch), damit die Push-Events erzeugt werden.
+  domain: automation
+
+  input:
+    shelly_i4_device:
+      name: Shelly i4 Gerät
+      description: Das Shelly i4 Gerät in Home Assistant
+      selector:
+        device:
+
+    # Button 1
+    action_btn1_short:
+      name: Button 1 - kurzer Druck
+      default: []
+      selector:
+        action: {}
+
+    action_btn1_long:
+      name: Button 1 - langer Druck
+      default: []
+      selector:
+        action: {}
+
+    # Button 2
+    action_btn2_short:
+      name: Button 2 - kurzer Druck
+      default: []
+      selector:
+        action: {}
+
+    action_btn2_long:
+      name: Button 2 - langer Druck
+      default: []
+      selector:
+        action: {}
+
+    # Button 3
+    action_btn3_short:
+      name: Button 3 - kurzer Druck
+      default: []
+      selector:
+        action: {}
+
+    action_btn3_long:
+      name: Button 3 - langer Druck
+      default: []
+      selector:
+        action: {}
+
+    # Button 4
+    action_btn4_short:
+      name: Button 4 - kurzer Druck
+      default: []
+      selector:
+        action: {}
+
+    action_btn4_long:
+      name: Button 4 - langer Druck
+      default: []
+      selector:
+        action: {}
+
+mode: parallel
+max_exceeded: silent
+
+trigger:
+  # Button 1
+  - platform: device
+    device_id: !input shelly_i4_device
+    domain: shelly
+    type: single_push
+    subtype: button1
+    id: btn1_short
+  - platform: device
+    device_id: !input shelly_i4_device
+    domain: shelly
+    type: long_push
+    subtype: button1
+    id: btn1_long
+
+  # Button 2
+  - platform: device
+    device_id: !input shelly_i4_device
+    domain: shelly
+    type: single_push
+    subtype: button2
+    id: btn2_short
+  - platform: device
+    device_id: !input shelly_i4_device
+    domain: shelly
+    type: long_push
+    subtype: button2
+    id: btn2_long
+
+  # Button 3
+  - platform: device
+    device_id: !input shelly_i4_device
+    domain: shelly
+    type: single_push
+    subtype: button3
+    id: btn3_short
+  - platform: device
+    device_id: !input shelly_i4_device
+    domain: shelly
+    type: long_push
+    subtype: button3
+    id: btn3_long
+
+  # Button 4
+  - platform: device
+    device_id: !input shelly_i4_device
+    domain: shelly
+    type: single_push
+    subtype: button4
+    id: btn4_short
+  - platform: device
+    device_id: !input shelly_i4_device
+    domain: shelly
+    type: long_push
+    subtype: button4
+    id: btn4_long
+
+condition: []
+
+action:
+  - choose:
+      # Button 1
+      - conditions:
+          - condition: trigger
+            id: btn1_short
+        sequence: !input action_btn1_short
+      - conditions:
+          - condition: trigger
+            id: btn1_long
+        sequence: !input action_btn1_long
+
+      # Button 2
+      - conditions:
+          - condition: trigger
+            id: btn2_short
+        sequence: !input action_btn2_short
+      - conditions:
+          - condition: trigger
+            id: btn2_long
+        sequence: !input action_btn2_long
+
+      # Button 3
+      - conditions:
+          - condition: trigger
+            id: btn3_short
+        sequence: !input action_btn3_short
+      - conditions:
+          - condition: trigger
+            id: btn3_long
+        sequence: !input action_btn3_long
+
+      # Button 4
+      - conditions:
+          - condition: trigger
+            id: btn4_short
+        sequence: !input action_btn4_short
+      - conditions:
+          - condition: trigger
+            id: btn4_long
+        sequence: !input action_btn4_long
+
+    default: []
