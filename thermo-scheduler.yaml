@@ -1,0 +1,513 @@
+blueprint:
+  name: Thermostat Zeitplan (8 Slots + optional Anwesenheit)
+  description: >
+    Setzt ein Thermostat zu bis zu 8 Uhrzeiten auf verschiedene Zieltemperaturen.
+    Pro Slot: Uhrzeit, Temperatur, Wochentage, optional nur wenn jemand zuhause ist.
+  domain: automation
+  input:
+    climate_entity:
+      name: Thermostat / Climate Entity
+      selector:
+        entity:
+          domain: climate
+
+    presence_entity:
+      name: Anwesenheits-Entität (optional)
+      description: >
+        z.B. group.family, person.mario, binary_sensor.someone_home.
+        Wenn leer, werden Anwesenheitsbedingungen ignoriert.
+      default: ""
+      selector:
+        entity:
+          multiple: false
+          filter:
+            - domain: group
+            - domain: person
+            - domain: device_tracker
+            - domain: binary_sensor
+
+    # Slot 1
+    time_1:
+      name: Slot 1 - Startzeit
+      default: "04:00:00"
+      selector:
+        time: {}
+    temp_1:
+      name: Slot 1 - Zieltemperatur (°C)
+      default: 22
+      selector:
+        number:
+          min: 5
+          max: 35
+          step: 0.5
+          mode: slider
+    days_1:
+      name: Slot 1 - Wochentage
+      default: ["mon", "tue", "wed", "thu", "fri"]
+      selector:
+        select:
+          multiple: true
+          options:
+            - label: Montag
+              value: mon
+            - label: Dienstag
+              value: tue
+            - label: Mittwoch
+              value: wed
+            - label: Donnerstag
+              value: thu
+            - label: Freitag
+              value: fri
+            - label: Samstag
+              value: sat
+            - label: Sonntag
+              value: sun
+    only_home_1:
+      name: Slot 1 - Nur wenn zuhause
+      default: false
+      selector:
+        boolean: {}
+
+    # Slot 2
+    time_2:
+      name: Slot 2 - Startzeit
+      default: "08:00:00"
+      selector:
+        time: {}
+    temp_2:
+      name: Slot 2 - Zieltemperatur (°C)
+      default: 19
+      selector:
+        number:
+          min: 5
+          max: 35
+          step: 0.5
+          mode: slider
+    days_2:
+      name: Slot 2 - Wochentage
+      default: ["mon", "tue", "wed", "thu", "fri"]
+      selector:
+        select:
+          multiple: true
+          options:
+            - label: Montag
+              value: mon
+            - label: Dienstag
+              value: tue
+            - label: Mittwoch
+              value: wed
+            - label: Donnerstag
+              value: thu
+            - label: Freitag
+              value: fri
+            - label: Samstag
+              value: sat
+            - label: Sonntag
+              value: sun
+    only_home_2:
+      name: Slot 2 - Nur wenn zuhause
+      default: false
+      selector:
+        boolean: {}
+
+    # Slot 3
+    time_3:
+      name: Slot 3 - Startzeit
+      default: "18:00:00"
+      selector:
+        time: {}
+    temp_3:
+      name: Slot 3 - Zieltemperatur (°C)
+      default: 22
+      selector:
+        number:
+          min: 5
+          max: 35
+          step: 0.5
+          mode: slider
+    days_3:
+      name: Slot 3 - Wochentage
+      default: ["mon", "tue", "wed", "thu", "fri"]
+      selector:
+        select:
+          multiple: true
+          options:
+            - label: Montag
+              value: mon
+            - label: Dienstag
+              value: tue
+            - label: Mittwoch
+              value: wed
+            - label: Donnerstag
+              value: thu
+            - label: Freitag
+              value: fri
+            - label: Samstag
+              value: sat
+            - label: Sonntag
+              value: sun
+    only_home_3:
+      name: Slot 3 - Nur wenn zuhause
+      default: false
+      selector:
+        boolean: {}
+
+    # Slot 4
+    time_4:
+      name: Slot 4 - Startzeit
+      default: "21:00:00"
+      selector:
+        time: {}
+    temp_4:
+      name: Slot 4 - Zieltemperatur (°C)
+      default: 19
+      selector:
+        number:
+          min: 5
+          max: 35
+          step: 0.5
+          mode: slider
+    days_4:
+      name: Slot 4 - Wochentage
+      default: ["mon", "tue", "wed", "thu", "fri"]
+      selector:
+        select:
+          multiple: true
+          options:
+            - label: Montag
+              value: mon
+            - label: Dienstag
+              value: tue
+            - label: Mittwoch
+              value: wed
+            - label: Donnerstag
+              value: thu
+            - label: Freitag
+              value: fri
+            - label: Samstag
+              value: sat
+            - label: Sonntag
+              value: sun
+    only_home_4:
+      name: Slot 4 - Nur wenn zuhause
+      default: false
+      selector:
+        boolean: {}
+
+    # Slot 5
+    time_5:
+      name: Slot 5 - Startzeit
+      default: "06:00:00"
+      selector:
+        time: {}
+    temp_5:
+      name: Slot 5 - Zieltemperatur (°C)
+      default: 22
+      selector:
+        number:
+          min: 5
+          max: 35
+          step: 0.5
+          mode: slider
+    days_5:
+      name: Slot 5 - Wochentage
+      default: ["sat", "sun"]
+      selector:
+        select:
+          multiple: true
+          options:
+            - label: Montag
+              value: mon
+            - label: Dienstag
+              value: tue
+            - label: Mittwoch
+              value: wed
+            - label: Donnerstag
+              value: thu
+            - label: Freitag
+              value: fri
+            - label: Samstag
+              value: sat
+            - label: Sonntag
+              value: sun
+    only_home_5:
+      name: Slot 5 - Nur wenn zuhause
+      default: false
+      selector:
+        boolean: {}
+
+    # Slot 6
+    time_6:
+      name: Slot 6 - Startzeit
+      default: "10:00:00"
+      selector:
+        time: {}
+    temp_6:
+      name: Slot 6 - Zieltemperatur (°C)
+      default: 19
+      selector:
+        number:
+          min: 5
+          max: 35
+          step: 0.5
+          mode: slider
+    days_6:
+      name: Slot 6 - Wochentage
+      default: ["sat", "sun"]
+      selector:
+        select:
+          multiple: true
+          options:
+            - label: Montag
+              value: mon
+            - label: Dienstag
+              value: tue
+            - label: Mittwoch
+              value: wed
+            - label: Donnerstag
+              value: thu
+            - label: Freitag
+              value: fri
+            - label: Samstag
+              value: sat
+            - label: Sonntag
+              value: sun
+    only_home_6:
+      name: Slot 6 - Nur wenn zuhause
+      default: false
+      selector:
+        boolean: {}
+
+    # Slot 7
+    time_7:
+      name: Slot 7 - Startzeit
+      default: "16:00:00"
+      selector:
+        time: {}
+    temp_7:
+      name: Slot 7 - Zieltemperatur (°C)
+      default: 22
+      selector:
+        number:
+          min: 5
+          max: 35
+          step: 0.5
+          mode: slider
+    days_7:
+      name: Slot 7 - Wochentage
+      default: []
+      selector:
+        select:
+          multiple: true
+          options:
+            - label: Montag
+              value: mon
+            - label: Dienstag
+              value: tue
+            - label: Mittwoch
+              value: wed
+            - label: Donnerstag
+              value: thu
+            - label: Freitag
+              value: fri
+            - label: Samstag
+              value: sat
+            - label: Sonntag
+              value: sun
+    only_home_7:
+      name: Slot 7 - Nur wenn zuhause
+      default: false
+      selector:
+        boolean: {}
+
+    # Slot 8
+    time_8:
+      name: Slot 8 - Startzeit
+      default: "22:30:00"
+      selector:
+        time: {}
+    temp_8:
+      name: Slot 8 - Zieltemperatur (°C)
+      default: 19
+      selector:
+        number:
+          min: 5
+          max: 35
+          step: 0.5
+          mode: slider
+    days_8:
+      name: Slot 8 - Wochentage
+      default: []
+      selector:
+        select:
+          multiple: true
+          options:
+            - label: Montag
+              value: mon
+            - label: Dienstag
+              value: tue
+            - label: Mittwoch
+              value: wed
+            - label: Donnerstag
+              value: thu
+            - label: Freitag
+              value: fri
+            - label: Samstag
+              value: sat
+            - label: Sonntag
+              value: sun
+    only_home_8:
+      name: Slot 8 - Nur wenn zuhause
+      default: false
+      selector:
+        boolean: {}
+
+mode: single
+
+trigger:
+  - platform: time
+    at: !input time_1
+    id: slot_1
+  - platform: time
+    at: !input time_2
+    id: slot_2
+  - platform: time
+    at: !input time_3
+    id: slot_3
+  - platform: time
+    at: !input time_4
+    id: slot_4
+  - platform: time
+    at: !input time_5
+    id: slot_5
+  - platform: time
+    at: !input time_6
+    id: slot_6
+  - platform: time
+    at: !input time_7
+    id: slot_7
+  - platform: time
+    at: !input time_8
+    id: slot_8
+
+variables:
+  dow: "{{ now().strftime('%a') | lower }}"  # mon,tue,wed,thu,fri,sat,sun
+  presence: !input presence_entity
+  is_home: >-
+    {% if presence in ['', none] %}
+      true
+    {% else %}
+      {% set d = presence.split('.')[0] %}
+      {% if d == 'binary_sensor' %}
+        {{ is_state(presence, 'on') }}
+      {% else %}
+        {{ is_state(presence, 'home') }}
+      {% endif %}
+    {% endif %}
+
+action:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: >
+              {{ trigger.id == 'slot_1'
+                 and dow in (days_1 | default([]))
+                 and (not only_home_1 or is_home) }}
+        sequence:
+          - service: climate.set_temperature
+            target:
+              entity_id: !input climate_entity
+            data:
+              temperature: !input temp_1
+
+      - conditions:
+          - condition: template
+            value_template: >
+              {{ trigger.id == 'slot_2'
+                 and dow in (days_2 | default([]))
+                 and (not only_home_2 or is_home) }}
+        sequence:
+          - service: climate.set_temperature
+            target:
+              entity_id: !input climate_entity
+            data:
+              temperature: !input temp_2
+
+      - conditions:
+          - condition: template
+            value_template: >
+              {{ trigger.id == 'slot_3'
+                 and dow in (days_3 | default([]))
+                 and (not only_home_3 or is_home) }}
+        sequence:
+          - service: climate.set_temperature
+            target:
+              entity_id: !input climate_entity
+            data:
+              temperature: !input temp_3
+
+      - conditions:
+          - condition: template
+            value_template: >
+              {{ trigger.id == 'slot_4'
+                 and dow in (days_4 | default([]))
+                 and (not only_home_4 or is_home) }}
+        sequence:
+          - service: climate.set_temperature
+            target:
+              entity_id: !input climate_entity
+            data:
+              temperature: !input temp_4
+
+      - conditions:
+          - condition: template
+            value_template: >
+              {{ trigger.id == 'slot_5'
+                 and dow in (days_5 | default([]))
+                 and (not only_home_5 or is_home) }}
+        sequence:
+          - service: climate.set_temperature
+            target:
+              entity_id: !input climate_entity
+            data:
+              temperature: !input temp_5
+
+      - conditions:
+          - condition: template
+            value_template: >
+              {{ trigger.id == 'slot_6'
+                 and dow in (days_6 | default([]))
+                 and (not only_home_6 or is_home) }}
+        sequence:
+          - service: climate.set_temperature
+            target:
+              entity_id: !input climate_entity
+            data:
+              temperature: !input temp_6
+
+      - conditions:
+          - condition: template
+            value_template: >
+              {{ trigger.id == 'slot_7'
+                 and dow in (days_7 | default([]))
+                 and (not only_home_7 or is_home) }}
+        sequence:
+          - service: climate.set_temperature
+            target:
+              entity_id: !input climate_entity
+            data:
+              temperature: !input temp_7
+
+      - conditions:
+          - condition: template
+            value_template: >
+              {{ trigger.id == 'slot_8'
+                 and dow in (days_8 | default([]))
+                 and (not only_home_8 or is_home) }}
+        sequence:
+          - service: climate.set_temperature
+            target:
+              entity_id: !input climate_entity
+            data:
+              temperature: !input temp_8
+    default: []
